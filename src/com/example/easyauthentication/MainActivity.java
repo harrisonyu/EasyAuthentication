@@ -6,17 +6,21 @@ import android.support.v4.view.VelocityTrackerCompat;
 import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
-
+//TODO: use: size, graph velocity, time, gestureslibrary, accelerometer, gyroscope
 public class MainActivity extends Activity {
 	private static final String DEBUG_TAG = "Velocity";
 
 	private TextView velocityDisplay;
+	private TextView calibrationDisplay;
+	private int touchNum;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);     
         velocityDisplay = (TextView)findViewById(R.id.velocity);
-        setContentView(R.layout.activity_main);
+        calibrationDisplay = (TextView)findViewById(R.id.calibrate);
+        touchNum = 0;
     }
 
 
@@ -45,6 +49,8 @@ public class MainActivity extends Activity {
                 }
                 // Add a user's movement to the tracker.
                 mVelocityTracker.addMovement(event);
+                calibrationDisplay.setText("Touch Number: " + touchNum);
+                touchNum++;
                 break;
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.addMovement(event);
@@ -60,9 +66,9 @@ public class MainActivity extends Activity {
                 Log.d("", "Y velocity: " + 
                         VelocityTrackerCompat.getYVelocity(mVelocityTracker,
                         pointerId));
-        		/*velocityDisplay.setText("X velocity: " + VelocityTrackerCompat.getXVelocity(mVelocityTracker, 
+        		velocityDisplay.setText("X velocity: " + VelocityTrackerCompat.getXVelocity(mVelocityTracker, 
                         pointerId) + " Y velocity: " + VelocityTrackerCompat.getYVelocity(mVelocityTracker,
-                                pointerId));*/
+                                pointerId));
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
