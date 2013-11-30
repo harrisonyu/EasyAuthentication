@@ -2,7 +2,6 @@ package com.example.easyauthentication;
 
 import java.io.File;
 
-
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.hardware.SensorEvent;
@@ -15,10 +14,8 @@ import android.support.v4.view.VelocityTrackerCompat;
 import android.util.Log;
 import android.view.*;
 import android.widget.TextView;
-
 import au.com.bytecode.opencsv.CSVWriter;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -46,6 +43,8 @@ public class MainActivity extends Activity implements SensorEventListener{
 	private TextView velocityDisplay;
 	private TextView calibrationDisplay;
 	private int touchNum;
+	
+	private VelocityTracker mVelocityTracker = null;
 
 	File file;
 	CSVWriter writer;
@@ -72,7 +71,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    private VelocityTracker mVelocityTracker = null;
+    
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int index = event.getActionIndex();
@@ -132,11 +131,6 @@ public class MainActivity extends Activity implements SensorEventListener{
         return true;
     }
     
-    
-    
-    
-    
-   
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
@@ -167,6 +161,8 @@ public class MainActivity extends Activity implements SensorEventListener{
 	            System.out.println("Writing: " + file);
     	}
     }
+    
+    @Override
     protected void onResume() {
         super.onResume();
         senMan.registerListener(this, accel, SensorManager.SENSOR_DELAY_NORMAL);
