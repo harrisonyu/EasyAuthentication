@@ -62,6 +62,18 @@ public class MainActivity extends Activity implements SensorEventListener{
     	Gyro_x = 0;
     	Gyro_y = 0;
     	Gyro_z = 0;
+    	senMan = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    	accel = senMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+    	gyro = senMan.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        context = getApplicationContext();
+    	File filedir = context.getExternalFilesDir(null);
+    	String filename = "calibration" + touchNum + ".cvs";
+        file = new File(filedir, filename);
+    	try {
+    		writer = new CSVWriter(new FileWriter(file), ',');
+    	} catch (IOException e) {
+    		e.printStackTrace();
+    	}
     }
 
 
@@ -158,7 +170,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 	            		+ Gyro_x + "," + Gyro_y + ","
 	            		+ Gyro_z;
 	            writer.writeNext(entry);
-	            System.out.println("Writing: " + file);
     	}
     }
     
