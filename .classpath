@@ -5,8 +5,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>
-	<classpathentry kind="lib" path="/mp1/bin/dexedLibs/android-support-v4-9cc0cc0dd9a219332c864bb7c77fa6c7.jar"/>
-	<classpathentry kind="lib" path="/mp1/bin/dexedLibs/opencsv-2.3-6ca597d5e468784d6833c3d3e2a4630e.jar"/>
-	<classpathentry kind="lib" path="/mp1/libs/opencsv-2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/users/Alan/workspace/ECE498-MP1/mp1/libs/opencsv-2.3.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
