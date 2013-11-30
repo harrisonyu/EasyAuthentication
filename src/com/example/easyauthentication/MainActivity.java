@@ -66,14 +66,16 @@ public class MainActivity extends Activity implements SensorEventListener{
     	accel = senMan.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     	gyro = senMan.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
         context = getApplicationContext();
+        /*
     	File filedir = context.getExternalFilesDir(null);
-    	String filename = "calibration" + touchNum + ".cvs";
+    	String filename = "calibration" + touchNum + ".csv";
         file = new File(filedir, filename);
     	try {
     		writer = new CSVWriter(new FileWriter(file), ',');
     	} catch (IOException e) {
     		e.printStackTrace();
     	}
+    	*/
     }
 
 
@@ -102,18 +104,17 @@ public class MainActivity extends Activity implements SensorEventListener{
                 }
                 // Add a user's movement to the tracker.
                 mVelocityTracker.addMovement(event);
-                calibrationDisplay.setText("Touch Number: " + touchNum);
-                touchNum++;
+                calibrationDisplay.setText("Touch Number: " + touchNum++);
                 context = getApplicationContext();
             	File filedir = context.getExternalFilesDir(null);
-            	String filename = "calibration" + touchNum + ".cvs";
+            	String filename = "calibration" + touchNum + ".csv";
                 file = new File(filedir, filename);
             	try {
             		writer = new CSVWriter(new FileWriter(file), ',');
             	} catch (IOException e) {
             		e.printStackTrace();
             	}
-                running = true;
+                running = true;             
                 break;
             case MotionEvent.ACTION_MOVE:
                 mVelocityTracker.addMovement(event);
@@ -135,6 +136,11 @@ public class MainActivity extends Activity implements SensorEventListener{
                 break;
             case MotionEvent.ACTION_UP:
             	running = false;
+            	try {
+            		writer.close();
+            	} catch (IOException e) {
+            		e.printStackTrace();
+            	}
             case MotionEvent.ACTION_CANCEL:
                 // Return a VelocityTracker object back to be re-used by others.
                 mVelocityTracker.recycle();
