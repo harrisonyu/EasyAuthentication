@@ -126,7 +126,7 @@ public class MainActivity extends Activity implements SensorEventListener{
                 // Best practice to use VelocityTrackerCompat where possible.
                 Log.d("", "X velocity: " + 
                         VelocityTrackerCompat.getXVelocity(mVelocityTracker, 
-                        pointerId));
+                        pointerId));	
                 Log.d("", "Y velocity: " + 
                         VelocityTrackerCompat.getYVelocity(mVelocityTracker,
                         pointerId));
