@@ -29,6 +29,9 @@ public class MainActivity extends Activity implements SensorEventListener{
 	private float Gyro_x;
 	private float Gyro_y;
 	private float Gyro_z;
+	private float Velo_x;
+	private float Velo_y;
+	private float Size;
 	private static Context context;
 
 
@@ -110,7 +113,7 @@ public class MainActivity extends Activity implements SensorEventListener{
             	String filename = "calibration" + touchNum + ".csv";
                 file = new File(filedir, filename);
             	try {
-            		writer = new CSVWriter(new FileWriter(file), ',');
+            		writer = new CSVWriter(new FileWriter(file), ',', CSVWriter.NO_QUOTE_CHARACTER);
             	} catch (IOException e) {
             		e.printStackTrace();
             	}
@@ -133,6 +136,9 @@ public class MainActivity extends Activity implements SensorEventListener{
         		velocityDisplay.setText("X velocity: " + VelocityTrackerCompat.getXVelocity(mVelocityTracker, 
                         pointerId) + " Y velocity: " + VelocityTrackerCompat.getYVelocity(mVelocityTracker,
                                 pointerId));
+        		Velo_x = VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId);
+        		Velo_y =  VelocityTrackerCompat.getYVelocity(mVelocityTracker, pointerId);
+        		Size = event.getSize(pointerId);
                 break;
             case MotionEvent.ACTION_UP:
             	running = false;
@@ -174,7 +180,8 @@ public class MainActivity extends Activity implements SensorEventListener{
 	            entry[0] = timestamp + "," + Accel_x + ","
 	            		+ Accel_y + "," + Accel_z + ","
 	            		+ Gyro_x + "," + Gyro_y + ","
-	            		+ Gyro_z;
+	            		+ Gyro_z + "," + Velo_x + "," + Velo_y + "," + Size;
+	            System.out.println(entry[0]);
 	            writer.writeNext(entry);
     	}
     }
