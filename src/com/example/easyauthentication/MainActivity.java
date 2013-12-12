@@ -94,6 +94,7 @@ public class MainActivity extends Activity implements SensorEventListener{
         int index = event.getActionIndex();
         int action = event.getActionMasked();
         int pointerId = event.getPointerId(index);
+        long timestamp = event.getEventTime();
 
         switch(action) {
             case MotionEvent.ACTION_DOWN:
@@ -139,6 +140,15 @@ public class MainActivity extends Activity implements SensorEventListener{
         		Velo_x = VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId);
         		Velo_y =  VelocityTrackerCompat.getYVelocity(mVelocityTracker, pointerId);
         		Size = event.getSize(pointerId);
+        		/*
+	            String[] entry = new String[1];
+	            entry[0] = timestamp + "," + Accel_x + ","
+	            		+ Accel_y + "," + Accel_z + ","
+	            		+ Gyro_x + "," + Gyro_y + ","
+	            		+ Gyro_z + "," + Velo_x + "," + Velo_y + "," + Size;
+	            writer.writeNext(entry);
+	            */
+	            
                 break;
             case MotionEvent.ACTION_UP:
             	running = false;
@@ -176,13 +186,14 @@ public class MainActivity extends Activity implements SensorEventListener{
 	        	Gyro_y = values[1];
 	        	Gyro_z = values[2];
 	        }
+	        
 	            String[] entry = new String[1];
 	            entry[0] = timestamp + "," + Accel_x + ","
 	            		+ Accel_y + "," + Accel_z + ","
 	            		+ Gyro_x + "," + Gyro_y + ","
 	            		+ Gyro_z + "," + Velo_x + "," + Velo_y + "," + Size;
-	            System.out.println(entry[0]);
 	            writer.writeNext(entry);
+	            
     	}
     }
     
