@@ -48,7 +48,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 	
 	private static final String DEBUG_TAG = "Velocity";
 
-	private TextView velocityDisplay;
+	private TextView authDisplay;
 	private TextView calibrationDisplay;
 	private int touchNum;
 	
@@ -95,7 +95,7 @@ public class MainActivity extends Activity implements SensorEventListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);     
-        velocityDisplay = (TextView)findViewById(R.id.velocity);
+        authDisplay = (TextView)findViewById(R.id.auth);
         calibrationDisplay = (TextView)findViewById(R.id.calibrate);
         touchNum = 0;
     	Accel_x = 0;
@@ -194,9 +194,6 @@ public class MainActivity extends Activity implements SensorEventListener{
                 Log.d("", "Y velocity: " + 
                         VelocityTrackerCompat.getYVelocity(mVelocityTracker,
                         pointerId));
-        		velocityDisplay.setText("X velocity: " + VelocityTrackerCompat.getXVelocity(mVelocityTracker, 
-                        pointerId) + " Y velocity: " + VelocityTrackerCompat.getYVelocity(mVelocityTracker,
-                                pointerId));
         		Velo_x = VelocityTrackerCompat.getXVelocity(mVelocityTracker, pointerId);
         		Velo_y =  VelocityTrackerCompat.getYVelocity(mVelocityTracker, pointerId);
         		Size = event.getSize(pointerId);
@@ -204,9 +201,13 @@ public class MainActivity extends Activity implements SensorEventListener{
             case MotionEvent.ACTION_UP:
             	running = false;
             	if (touchNum > 6) {
-            		boolean isValid = testGestureWithGNB();
-                	DynamicTimeWarpingComparison();
-            	}
+            		boolean gnbValid = testGestureWithGNB();
+                	boolean dwtValid = DynamicTimeWarpingComparison();
+                	if (gnbValid && dwtValid)
+                		authDisplay.setText("VALID GESTURE");
+                	else
+                		authDisplay.setText("INVALID GESTURE");
+            	} 
             	try {
             		writer.close();
             	} catch (IOException e) {
@@ -288,21 +289,6 @@ public class MainActivity extends Activity implements SensorEventListener{
     		e.printStackTrace();
     	}
     }
-    
-    //TODO: learn how to generate reliable negative examples from only positive examples
-    private void generateNeg() throws IOException {
-    	File fileDir = getFilesDir();
-    	for (int i = 2; i <= NUM_CAL_FILES; i++) {
-    		String curFile = "calibration" + i + ".csv";
-    		File cur = new File(fileDir, curFile);
-    		BufferedReader br = new BufferedReader(new FileReader(cur));
-    		String line;
-    		while ((line = br.readLine()) != null) {
-    			String[] tokens = line.split(",");
-    			
-    		}
-    	}
-    }
 
 	private double probDensity(float sampleMean, float mean, float var) {
 		double sqrtTwoPi = Math.sqrt(Math.PI * 2);
@@ -367,7 +353,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 		curProb += probDensity(meanSize, trainedMeanSize, trainedVarSize);
 		System.out.println("curProb : " + curProb);
 
-		return false;
+		return curProb > 50;
 	}
     
     private void trainGaussianNaiveBayes() throws IOException {
@@ -480,7 +466,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 		trainedVarSize = varSize;
     }
     
-    private void DynamicTimeWarpingComparison()
+    private boolean DynamicTimeWarpingComparison()
     {
 		Iterator< ArrayList<Float> > i = curInstance.iterator();
 		List<Float> tempAccelX = new ArrayList<Float>();
@@ -664,9 +650,10 @@ public class MainActivity extends Activity implements SensorEventListener{
 		
 		if(currFingerSize < fingerSizeMargin && currVelocityX < velocityXMargin && currVelocityY < velocityYMargin)
 		{
-			
+			return true;
 		}
-		
+
+		return false;
     }
     
     private void DynamicTimeWarpingCalibration() throws IOException

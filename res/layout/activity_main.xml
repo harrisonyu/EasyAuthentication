@@ -9,19 +9,20 @@
     tools:context=".MainActivity" >
 
     <TextView
-        android:id="@+id/velocity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="152dp"
-        android:text="@string/velocityInts" />
-
-    <TextView
         android:id="@+id/calibrate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="TextView" />
+        android:text="Touch Num" />
+
+    <TextView
+        android:id="@+id/auth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/calibrate"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="45dp"
+        android:text="Authentication Result" />
 
 </RelativeLayout>
