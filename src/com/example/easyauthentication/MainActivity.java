@@ -205,8 +205,12 @@ public class MainActivity extends Activity implements SensorEventListener{
                 	boolean dwtValid = DynamicTimeWarpingComparison();
                 	if (gnbValid && dwtValid)
                 		authDisplay.setText("VALID GESTURE");
-                	else
+                	else if (!gnbValid && !dwtValid)
                 		authDisplay.setText("INVALID GESTURE");
+                	else if (!gnbValid)
+                		authDisplay.setText("GNB INVALID");
+                	else
+                		authDisplay.setText("DTW INVALID");
             	} 
             	try {
             		writer.close();
@@ -353,7 +357,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 		curProb += probDensity(meanSize, trainedMeanSize, trainedVarSize);
 		System.out.println("curProb : " + curProb);
 
-		return curProb > 50;
+		return curProb > 15;
 	}
     
     private void trainGaussianNaiveBayes() throws IOException {
@@ -646,7 +650,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 		float gyroZMargin = gyroZAvg + gyroZStdDev;
 		float velocityXMargin = velocityXAvg + velocityXStdDev;
 		float velocityYMargin = velocityYAvg + velocityYStdDev;
-		float fingerSizeMargin = fingerSizeAvg + fingerSizeAvgStdDev;
+		float fingerSizeMargin = fingerSizeAvg + 10*fingerSizeAvgStdDev;
 		
 		if(currFingerSize < fingerSizeMargin && currVelocityX < velocityXMargin && currVelocityY < velocityYMargin)
 		{
