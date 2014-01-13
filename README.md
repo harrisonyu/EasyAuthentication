@@ -1,7 +1,7 @@
 ece498FinalProj
 ===============
-Harrison Yu (yu91)
-Alan Chiang (achiang3)
+Harrison Yu
+Alan Chiang
 
 
 ECE 498 Project Proposal
