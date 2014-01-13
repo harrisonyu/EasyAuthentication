@@ -1,6 +1,6 @@
 ece498FinalProj
 ===============
-Harrison Yu
+Harrison Yu &
 Alan Chiang
 
 
