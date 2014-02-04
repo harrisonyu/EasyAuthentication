@@ -1,4 +1,4 @@
-ece498FinalProj
+EasyAuthentication
 ===============
 Harrison Yu &
 Alan Chiang
